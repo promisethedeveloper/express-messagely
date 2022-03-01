@@ -24,7 +24,7 @@ class User {
         join_at, 
         last_login_at)
         VALUES ($1, $2, $3, $4, $5, current_timestamp, current_timestamp)
-        RETURNING username, password, first_name, lastname, phone`,
+        RETURNING username, password, first_name, last_name, phone`,
 			[username, hashedPassword, first_name, last_name, phone]
 		);
 		return result.rows[0];
@@ -114,7 +114,7 @@ class User {
 			`SELECT m.id, 
               m.to_username,
               u.first_name,
-              u.last_name
+              u.last_name,
               u.phone,
               m.body,
               m.sent_at,
@@ -152,7 +152,7 @@ class User {
 			`SELECT m.id, 
               m.from_username,
               u.first_name,
-              u.last_name
+              u.last_name,
               u.phone,
               m.body,
               m.sent_at,
