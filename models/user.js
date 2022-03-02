@@ -47,8 +47,9 @@ class User {
 	static async updateLoginTimestamp(username) {
 		const result = await db.query(
 			`UPDATE users 
-      SET last_login_at = current_timestamp
-      WHERE username = $1`,
+      		 	SET last_login_at = current_timestamp
+      			WHERE username = $1 
+	  			RETURNING username`,
 			[username]
 		);
 
@@ -128,7 +129,7 @@ class User {
 		return result.rows.map((m) => ({
 			id: m.id,
 			to_user: {
-				username: m.username,
+				username: m.to_username,
 				first_name: m.first_name,
 				last_name: m.last_name,
 				phone: m.phone,
@@ -166,7 +167,7 @@ class User {
 		return result.rows.map((m) => ({
 			id: m.id,
 			from_user: {
-				username: m.username,
+				username: m.from_username,
 				first_name: m.first_name,
 				last_name: m.last_name,
 				phone: m.phone,

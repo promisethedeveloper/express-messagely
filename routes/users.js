@@ -1,6 +1,7 @@
 const { ensureLoggedIn, ensureCorrectUser } = require("../middleware/auth");
 const User = require("../models/user");
-const router = require("./auth");
+const Router = require("express").Router;
+const router = new Router();
 
 /** GET / - get list of users.
  *
@@ -9,7 +10,7 @@ const router = require("./auth");
  **/
 router.get("/", ensureLoggedIn, async (req, res, next) => {
 	try {
-		let users = User.all();
+		let users = await User.all();
 		return res.json({ users });
 	} catch (error) {
 		return next(error);
@@ -23,7 +24,7 @@ router.get("/", ensureLoggedIn, async (req, res, next) => {
  **/
 router.get("/:username", ensureCorrectUser, async (req, res, next) => {
 	try {
-		let user = User.get(req.params.username);
+		let user = await User.get(req.params.username);
 		return res.json({ user });
 	} catch (error) {
 		return next(error);
